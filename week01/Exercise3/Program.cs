@@ -1,35 +1,32 @@
 using System;
+
 class Program
 {
     static void Main(string[] args)
     {
-        DisplayWelcome();
-        string name = PromptUserName();
-        int number = PromptUserNumber();
-        int square = SquareNumber(number);
-        DisplayResult(name, square);
-    }
+        Random randomGenerator = new Random();
+        int magicNumber = randomGenerator.Next(1, 101);
+        int guess = 0;
+        int guesses = 0;
 
-    static void DisplayWelcome()
-    {
-        Console.WriteLine("Welcome to the program!");
-    }
-    static string PromptUserName()
-    {
-        Console.Write("Please enter your name: ");
-        return Console.ReadLine();
-    }
-    static int PromptUserNumber()
-    {
-        Console.Write("Please enter your favorite number: ");
-        return int.Parse(Console.ReadLine());
-    }
-    static int SquareNumber(int number)
-    {
-        return number * number;
-    }
-    static void DisplayResult(string name, int square)
-    {
-        Console.WriteLine($"{name}, the square of your number is {square}");
+        while (guess != magicNumber)
+        {
+            Console.Write("What is your guess? ");
+            guess = int.Parse(Console.ReadLine());
+            guesses++;
+            if (guess < magicNumber)
+            {
+                Console.WriteLine("Higher");
+            }
+            else if (guess > magicNumber)
+            {
+                Console.WriteLine("Lower");
+            }
+            else
+            {
+                Console.WriteLine("You guessed it!");
+            }
+        }
+        Console.WriteLine($"You guessed the number in {guesses} tries.");
     }
 }

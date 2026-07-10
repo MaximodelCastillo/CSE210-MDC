@@ -1,32 +1,109 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 
-class Program
+public class Journal
 {
-    static void Main(string[] args)
+    public List<Entry> _entries = new List<Entry>();
+
+    public void AddEntry(Entry newEntry)
     {
-        // Create the first job
-        Job job1 = new Job();
-        job1._jobTitle = "Software Engineer";
-        job1._company = "Microsoft";
-        job1._startYear = 2019;
-        job1._endYear = 2022;
+        _entries.Add(newEntry);
+    }
 
-        // Create the second job
-        Job job2 = new Job();
-        job2._jobTitle = "Manager";
-        job2._company = "Apple";
-        job2._startYear = 2022;
-        job2._endYear = 2023;
+    public void DisplayAll()
+    {
+        foreach (Entry entry in _entries)
+        {
+            entry.Display();
+        }
+    }
 
-        // Create the resume
-        Resume myResume = new Resume();
-        myResume._name = "Allison Rose";
+    public void SaveToFile(string fileName)
+    {
+        using (StreamWriter outputFile = new StreamWriter(fileName))
+        {
+            foreach (Entry entry in _entries)
+            {
+                outputFile.WriteLine($"{entry._date}|{entry._promptText}|{entry._entryText}");
+            }
+        }
 
-        // Add jobs to the resume
-        myResume._jobs.Add(job1);
-        myResume._jobs.Add(job2);
+        Console.WriteLine("Journal saved successfully.");
+    }
 
-        // Display the resume
-        myResume.Display();
+    public void LoadFromFile(string fileName)
+    {
+        _entries.Clear();
+
+        string[] lines = File.ReadAllLines(fileName);
+
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split("|");
+
+            Entry entry = new Entry();
+            entry._date = parts[0];
+            entry._promptText = parts[1];
+            entry._entryText = parts[2];
+
+            _entries.Add(entry);
+        }
+
+        Console.WriteLine("Journal loaded successfully.");
+    }
+}using System;
+using System.Collections.Generic;
+using System.IO;
+
+public class Journal
+{
+    public List<Entry> _entries = new List<Entry>();
+
+    public void AddEntry(Entry newEntry)
+    {
+        _entries.Add(newEntry);
+    }
+
+    public void DisplayAll()
+    {
+        foreach (Entry entry in _entries)
+        {
+            entry.Display();
+        }
+    }
+
+    public void SaveToFile(string fileName)
+    {
+        using (StreamWriter outputFile = new StreamWriter(fileName))
+        {
+            foreach (Entry entry in _entries)
+            {
+                outputFile.WriteLine($"{entry._date}|{entry._promptText}|{entry._entryText}");
+            }
+        }
+
+        Console.WriteLine("Journal saved successfully.");
+    }
+
+    public void LoadFromFile(string fileName)
+    {
+        _entries.Clear();
+
+        string[] lines = File.ReadAllLines(fileName);
+
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split("|");
+
+            Entry entry = new Entry();
+            entry._date = parts[0];
+            entry._promptText = parts[1];
+            entry._entryText = parts[2];
+
+            _entries.Add(entry);
+        }
+
+        Console.WriteLine("Journal loaded successfully.");
     }
 }

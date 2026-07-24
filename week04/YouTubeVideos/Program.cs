@@ -1,45 +1,39 @@
 using System;
 using System.Collections.Generic;
 
-public class Video
+class Program
 {
-    private string _title;
-    private string _author;
-    private int _length;
-    private List<Comment> _comments;
-
-    public Video(string title, string author, int length)
+    static void Main(string[] args)
     {
-        _title = title;
-        _author = author;
-        _length = length;
-        _comments = new List<Comment>();
-    }
+        List<Video> videos = new List<Video>();
 
-    public void AddComment(Comment comment)
-    {
-        _comments.Add(comment);
-    }
+        Video video1 = new Video("Learn C# in 20 Minutes", "Code Academy", 1200);
+        video1.AddComment(new Comment("Alice", "Very helpful tutorial!"));
+        video1.AddComment(new Comment("Bob", "Thanks for explaining constructors."));
+        video1.AddComment(new Comment("Charlie", "Easy to understand."));
+        videos.Add(video1);
 
-    public int GetCommentCount()
-    {
-        return _comments.Count;
-    }
+        Video video2 = new Video("Top 10 Travel Destinations", "Travel World", 850);
+        video2.AddComment(new Comment("Emma", "I want to visit Japan!"));
+        video2.AddComment(new Comment("David", "Amazing video."));
+        video2.AddComment(new Comment("Sophia", "Great recommendations."));
+        videos.Add(video2);
 
-    public void DisplayVideoInfo()
-    {
-        Console.WriteLine("----------------------------------------");
-        Console.WriteLine($"Title: {_title}");
-        Console.WriteLine($"Author: {_author}");
-        Console.WriteLine($"Length: {_length} seconds");
-        Console.WriteLine($"Comments: {GetCommentCount()}");
-        Console.WriteLine();
+        Video video3 = new Video("Easy Chocolate Cake Recipe", "Kitchen Fun", 600);
+        video3.AddComment(new Comment("James", "Turned out delicious!"));
+        video3.AddComment(new Comment("Olivia", "Loved this recipe."));
+        video3.AddComment(new Comment("Lucas", "Can't wait to try it."));
+        videos.Add(video3);
 
-        foreach (Comment comment in _comments)
+        Video video4 = new Video("Morning Workout Routine", "Fitness Pro", 900);
+        video4.AddComment(new Comment("Mia", "Perfect way to start the day."));
+        video4.AddComment(new Comment("Noah", "Great exercises."));
+        video4.AddComment(new Comment("Ethan", "Feeling motivated now!"));
+        videos.Add(video4);
+
+        foreach (Video video in videos)
         {
-            comment.DisplayComment();
+            video.DisplayVideoInfo();
         }
-
-        Console.WriteLine();
     }
 }

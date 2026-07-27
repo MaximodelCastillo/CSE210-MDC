@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
+using OnlineOrdering;
 
-public class Order
+#pragma warning disable CA1050 // Declare types in namespaces
+public class Order(Customer customer)
+#pragma warning restore CA1050 // Declare types in namespaces
 {
-    private List<Product> _products;
-    private Customer _customer;
-
-    public Order(Customer customer)
-    {
-        _customer = customer;
-        _products = new List<Product>();
-    }
+    private List<Product> _products = new List<Product>();
+    private Customer _customer = customer;
 
     public void AddProduct(Product product)
     {

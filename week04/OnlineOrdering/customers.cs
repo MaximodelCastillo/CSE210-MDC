@@ -1,54 +1,26 @@
 using System;
-using System.Collections.Generic;
 
 namespace OnlineOrdering
 {
-    public class Order(Customer customer)
+    /// <summary>
+    /// A customer: a name and an Address object. The USA check is delegated
+    /// to the address.
+    /// </summary>
+    class Customer
     {
-        private List<Product> _products = new List<Product>();
-        private Customer _customer = customer;
+        private string _name;
+        private Address _address;
 
-        public void AddProduct(Product product)
+        public Customer(string name, Address address)
         {
-            _products.Add(product);
+            _name = name;
+            _address = address;
         }
 
-        public double GetTotalCost()
-        {
-            double total = 0;
+        // Read-only accessors needed for the shipping label.
+        public string Name => _name;
+        public Address Address => _address;
 
-            foreach (Product product in _products)
-            {
-                total += product.GetTotalCost();
-            }
-
-            if (_customer.LivesInUSA())
-            {
-                total += 5;
-            }
-            else
-            {
-                total += 35;
-            }
-
-            return total;
-        }
-
-        public string GetPackingLabel()
-        {
-            string label = "Packing Label\n";
-
-            foreach (Product product in _products)
-            {
-                label += $"{product.GetName()} - ID: {product.GetProductId()}\n";
-            }
-
-            return label;
-        }
-
-        public string GetShippingLabel()
-        {
-            return $"Shipping Label\n{_customer.GetName()}\n{_customer.GetAddress().GetFullAddress()}";
-        }
+        public bool IsInUSA() => _address.IsInUSA();
     }
 }

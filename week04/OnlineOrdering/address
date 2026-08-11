@@ -2,7 +2,10 @@ using System;
 
 namespace OnlineOrdering
 {
-    public class Address
+    /// <summary>
+    /// A shipping address: street, city, state/province, and country.
+    /// </summary>
+    class Address
     {
         private string _street;
         private string _city;
@@ -17,11 +20,10 @@ namespace OnlineOrdering
             _country = country;
         }
 
-        public bool IsInUSA()
-        {
-            return _country.ToUpper() == "USA";
-        }
+        // True when the address is in the United States ("usa" is accepted too).
+        public bool IsInUSA() => _country.Equals("USA", StringComparison.OrdinalIgnoreCase);
 
+        // All fields in one string, with newlines between the parts.
         public string GetFullAddress()
         {
             return $"{_street}\n{_city}, {_stateProvince}\n{_country}";

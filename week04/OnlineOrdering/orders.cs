@@ -1,54 +1,53 @@
 using System;
 using System.Collections.Generic;
-using OnlineOrdering;
 
-#pragma warning disable CA1050 // Declare types in namespaces
-public class Order(Customer customer)
-#pragma warning restore CA1050 // Declare types in namespaces
+namespace OnlineOrdering
 {
-    private List<Product> _products = new List<Product>();
-    private Customer _customer = customer;
-
-    public void AddProduct(Product product)
+    /// <summary>
+    /// An order: a customer and a list of products. Can total the order and
+    /// produce packing and shipping labels.
+    /// </summary>
+    class Order
     {
-        _products.Add(product);
-    }
+        private List<Product> _products;
+        private Customer _customer;
 
-    public double GetTotalCost()
-    {
-        double total = 0;
-
-        foreach (Product product in _products)
+        public Order(Customer customer)
         {
-            total += product.GetTotalCost();
+            _customer = customer;
+            _products = new List<Product>();
         }
 
-        if (_customer.LivesInUSA())
-        {
-            total += 5;
-        }
-        else
-        {
-            total += 35;
-        }
+        public void AddProduct(Product product) => _products.Add(product);
 
-        return total;
-    }
-
-    public string GetPackingLabel()
-    {
-        string label = "Packing Label\n";
-
-        foreach (Product product in _products)
+        // Sum of all product totals plus one-time shipping: $5 in the USA,
+        // $35 everywhere else.
+        public double GetTotalCost()
         {
-            label += $"{product.GetName()} - ID: {product.GetProductId()}\n";
+            double total = 0;
+            foreach (Product product in _products)
+            {
+                total += product.GetTotalCost();
+            }
+            total += _customer.IsInUSA() ? 5 : 35;
+            return total;
         }
 
-        return label;
-    }
+        // One line per product: name and product id.
+        public string GetPackingLabel()
+        {
+            List<string> lines = new List<string>();
+            foreach (Product product in _products)
+            {
+                lines.Add($"{product.Name} (ID: {product.ProductId})");
+            }
+            return string.Join("\n", lines);
+        }
 
-    public string GetShippingLabel()
-    {
-        return $"Shipping Label\n{_customer.GetName()}\n{_customer.GetAddress().GetFullAddress()}";
+        // Customer name followed by the full address.
+        public string GetShippingLabel()
+        {
+            return $"{_customer.Name}\n{_customer.Address.GetFullAddress()}";
+        }
     }
 }

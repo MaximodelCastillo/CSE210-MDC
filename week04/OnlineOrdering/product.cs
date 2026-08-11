@@ -2,11 +2,14 @@ using System;
 
 namespace OnlineOrdering
 {
-    public class Product
+    /// <summary>
+    /// A product line item: a name, product id, price per unit, and quantity.
+    /// </summary>
+    class Product
     {
         private string _name;
         private string _productId;
-        private double _price;
+        private double _price;      // price per unit
         private int _quantity;
 
         public Product(string name, string productId, double price, int quantity)
@@ -17,19 +20,11 @@ namespace OnlineOrdering
             _quantity = quantity;
         }
 
-        public string GetName()
-        {
-            return _name;
-        }
+        // Read-only accessors needed for the packing label.
+        public string Name => _name;
+        public string ProductId => _productId;
 
-        public string GetProductId()
-        {
-            return _productId;
-        }
-
-        public double GetTotalCost()
-        {
-            return _price * _quantity;
-        }
+        // Total cost of this product = price per unit * quantity.
+        public double GetTotalCost() => _price * _quantity;
     }
 }
